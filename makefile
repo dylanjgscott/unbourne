@@ -3,7 +3,7 @@ CFLAGS=-g -ansi -pedantic -Wall -Wextra
 
 all: unbourne
 
-unbourne: unbourne.o handle.o parse.o
+unbourne: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 unbourne.o: unbourne.c unbourne.h
@@ -15,8 +15,17 @@ handle.o: handle.c handle.h
 parse.o: parse.c parse.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+clear.o: clear.c clear.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+dir.o: dir.c dir.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+env.o: env.c env.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+quit.o: quit.c quit.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 clean:
-	rm unbourne
-	rm unbourne.o
-	rm handle.o
-	rm parse.o
+	rm unbourne *.o

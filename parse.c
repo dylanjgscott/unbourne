@@ -1,54 +1,48 @@
 #include "parse.h"
 
-/* shell environment variables */
-extern char** environ;
-
 /* parse
  *
  * interpret a command line and take the appropriate action.
  */
 
-void parse(char* line)
+void (*funcs[]) (char **args) = {
+	clear,
+	dir,
+	env,
+	quit,
+	quit,
+};
+
+char *cmds[] = {
+	"clr",
+	"dir",
+	"environ",
+	"exit",
+	"quit",
+};
+
+void parse(char *line)
 {
-	char split[BUF_SIZE];
-	char* args[ARGS_SIZE];
-	char** arg = args;
-	strncpy(split, line, BUF_SIZE);
-	*arg++ = strtok(split, DELIMITERS);
+	char line_copy[BUF_SIZE];
+	char *args[ARGS_SIZE];
+	char **arg = args;
+	strncpy(line_copy, line, BUF_SIZE);
+	*arg++ = strtok(line_copy, DELIMITERS);
 	while((*arg++ = strtok(NULL, DELIMITERS)));
-	arg = args;
-	if(*arg)
+	if(*args)
 	{
-		char* cmd = *arg;
-		if(strcmp(cmd, "clr") == 0)
+		char* cmd = args[0];
+		int i = 0;
+		while(cmds[i] != NULL)
 		{
-			system("clear");
-		}
-		else if(strcmp(cmd, "dir") == 0)
-		{
-			char dir_cmd[BUF_SIZE];
-			strncpy(dir_cmd, "ls -al", BUF_SIZE);
-			arg++;
-			while(*arg)
+			if(strcmp(cmd, cmds[i]) == 0)
 			{
-				strncat(dir_cmd, " ", BUF_SIZE);
-				strncat(dir_cmd, *arg++, BUF_SIZE);
+				funcs[i](args);
+				break;
 			}
-			system(dir_cmd);
+			i++;
 		}
-		else if(strcmp(cmd, "environ") == 0)
-		{
-			char** var = environ;
-			while(*var)
-			{
-				printf("%s\n", *var++);
-			}
-		}
-		else if(strcmp(cmd, "quit") == 0)
-		{
-			exit(EXIT_SUCCESS);
-		}
-		else
+		if(cmds[i] == NULL)
 		{
 			system(line);
 		}
