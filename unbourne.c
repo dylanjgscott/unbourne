@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#include "unbourne.h"
+
+#include "handle.h"
+
 /*
  * Unbourne Shell
  * Author: Dylan Scott
@@ -14,16 +23,6 @@
  *	environ - show environment variables
  *
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
-#include "unbourne.h"
-
-#include "handle.h"
-
 int main(int argc, char** argv)
 {
 	/* If no argument given, read stdin and display prompt */

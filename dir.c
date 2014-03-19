@@ -5,6 +5,9 @@
 
 #include "dir.h"
 
+/* dir - list directory contents
+ * args - directories to list
+ */
 void dir(char **args)
 {
 	char dir_cmd[BUF_SIZE];

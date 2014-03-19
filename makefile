@@ -12,7 +12,7 @@ unbourne.o: unbourne.c unbourne.h
 handle.o: handle.c handle.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-parse.o: parse.c parse.h
+parse.o: parse.c parse.h builtins.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clear.o: clear.c clear.h

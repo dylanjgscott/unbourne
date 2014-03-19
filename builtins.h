@@ -6,13 +6,18 @@
 #include "env.h"
 #include "quit.h"
 
+/* struct builtin - associates a bulit-in command with a function */
 struct builtin
 {
+	/* the command entered by the user */
 	char *cmd;
+	/* the function to run */
 	void (*func) (char **args);
 };
 
-struct builtin builtins[] = {
+/* list of all builtin functions */
+struct builtin builtins[] =
+{
 	{ "clr", clear},
 	{ "dir", dir},
 	{ "environ", env},
