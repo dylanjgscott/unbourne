@@ -5,6 +5,7 @@
 
 #include "unbourne.h"
 
+#include "init.h"
 #include "handle.h"
 
 /*
@@ -25,6 +26,9 @@
  */
 int main(int argc, char** argv)
 {
+    /* initalise our shell */
+    init(argv);
+
 	/* If no argument given, read stdin and display prompt */
 	if(argc == 1)
 	{
