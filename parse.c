@@ -1,25 +1,16 @@
+#include <stdlib.h>
+#include <string.h>
+
+#include "unbourne.h"
+
 #include "parse.h"
+
+#include "builtins.h"
 
 /* parse
  *
  * interpret a command line and take the appropriate action.
  */
-
-void (*funcs[]) (char **args) = {
-	clear,
-	dir,
-	env,
-	quit,
-	quit,
-};
-
-char *cmds[] = {
-	"clr",
-	"dir",
-	"environ",
-	"exit",
-	"quit",
-};
 
 void parse(char *line)
 {
@@ -33,16 +24,16 @@ void parse(char *line)
 	{
 		char* cmd = args[0];
 		int i = 0;
-		while(cmds[i] != NULL)
+		while(builtins[i].cmd != NULL)
 		{
-			if(strcmp(cmd, cmds[i]) == 0)
+			if(strcmp(cmd, builtins[i].cmd) == 0)
 			{
-				funcs[i](args);
+				builtins[i].func(args);
 				break;
 			}
 			i++;
 		}
-		if(cmds[i] == NULL)
+		if(builtins[i].cmd == NULL)
 		{
 			system(line);
 		}

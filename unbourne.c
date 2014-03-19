@@ -15,7 +15,14 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
 #include "unbourne.h"
+
+#include "handle.h"
 
 int main(int argc, char** argv)
 {

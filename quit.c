@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "quit.h"
 
 void quit(char **args)

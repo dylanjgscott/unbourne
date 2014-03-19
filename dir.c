@@ -1,3 +1,8 @@
+#include <stdlib.h>
+#include <string.h>
+
+#include "unbourne.h"
+
 #include "dir.h"
 
 void dir(char **args)

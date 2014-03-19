@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "clear.h"
 
 void clear(char **args)
