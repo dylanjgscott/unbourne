@@ -101,5 +101,6 @@ void init(char **argv)
             path_dir++;
         }
         free(path);
+        free(path_var);
     }
 }
