@@ -1,6 +1,7 @@
 #ifndef builtins_h
 #define builtins_h 1
 
+#include "cd.h"
 #include "clear.h"
 #include "dir.h"
 #include "env.h"
@@ -18,6 +19,7 @@ struct builtin
 /* list of all builtin functions */
 struct builtin builtins[] =
 {
+	{ "cd", cd},
 	{ "clr", clear},
 	{ "dir", dir},
 	{ "environ", env},

@@ -1,9 +1,9 @@
 CC=gcc
-CFLAGS=-g -ansi -pedantic -Wall -Wextra
+CFLAGS=-g -std=gnu90 -pedantic -Wall -Wextra
 
 all: unbourne
 
-unbourne: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o
+unbourne: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o
 	$(CC) -o $@ $^
 
 unbourne.o: unbourne.c unbourne.h
@@ -25,6 +25,9 @@ env.o: env.c env.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 quit.o: quit.c quit.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+cd.o: cd.c cd.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 init.o: init.c init.h

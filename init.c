@@ -8,6 +8,11 @@
 
 #include "init.h"
 
+/* TODO
+ *
+ * use realpath
+ */
+
 /* init - intitalise the shell
  * args - none
  * returns - none
@@ -44,13 +49,16 @@ void init(char **argv)
         char *path = malloc(sizeof(char) * BUF_SIZE);
 
         /* path variable */
-        char *path_var = getenv(PATH_VAR);
+        char *path_var = malloc(sizeof(char) * BUF_SIZE);
 
         /* list of path directories */
         char *path_dirs[ARGS_SIZE];
 
         /* pointer to current path directory */
         char **path_dir = path_dirs;
+
+		/* make copy of path variable */
+        path_var = strcpy(path_var, getenv(PATH_VAR));
 
         /* begin tokenising the path variable */
         *path_dir = strtok(path_var, PATH_SEPARATORS);
