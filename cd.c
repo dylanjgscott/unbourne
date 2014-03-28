@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <errno.h>
 
 #include "unbourne.h"
 
@@ -14,29 +15,34 @@
 void cd(char **args)
 {
 
-    /* check if chdir was successful */
-    if(chdir(args[1]) == 0)
-    {
-        /* get the real directory */
-        char *real = realpath(args[1], NULL);
-            /* check if we got a real path */
-        if(real != NULL)
-        {
+	/* the directory to change to */
+	char *path = args[1];
+
+	/* the canonical name for the directory to change to */
+	char *real = realpath(path, NULL);
+
+	/* try to get the real directory */
+	if(real != NULL)
+	{
+		/* change directory and check if successful */
+		if(chdir(real) == 0)
+		{
             /* try to set environment */
             if(setenv(PWD_VAR, real, true) != 0)
             {
                 /* show error */
-                fprintf(stderr, "Error: could not set working directory in environment.\n");
+				fprintf(stderr, "Error: %d could not set working directory in environment.\n", errno);
             }
         }
         else
         {
-            fprintf(stderr, "Error: real path was null.\n");
+			/* show error */
+			fprintf(stderr, "Error: %d could not change directory to '%s'.\n", errno, args[1]);
         }
     }
     else
     {
+		fprintf(stderr, "Error: %d real path was null.\n", errno);
         /* show error */
-        fprintf(stderr, "Error: could not change directory to '%s'.\n", args[1]);
     }
 }
