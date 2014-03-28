@@ -19,25 +19,12 @@
  */
 void init(char **argv)
 {
+	/* shell path */
+	char *shell = realpath(argv[0], NULL);
+
     /* called from relative path */
-    if(*argv[0] == '.')
+    if(shell != 0)
     {
-        char shell[BUF_SIZE];
-        getcwd(shell, BUF_SIZE);
-
-        /* remove the leading dot */
-        strcat(shell, argv[0]+1);
-
-        /* set SHELL environment variable */
-        setenv(SHELL_VAR, shell, true);
-    }
-
-    /* called from absolute path */
-    else if(*argv[0] == '/')
-    {
-        char shell[BUF_SIZE];
-        getcwd(shell, BUF_SIZE);
-        strcat(shell, "/");
         /* set SHELL environment variable */
         setenv(SHELL_VAR, shell, true);
     }

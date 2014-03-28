@@ -42,7 +42,7 @@ void cd(char **args)
     }
     else
     {
-		fprintf(stderr, "Error: %d real path was null.\n", errno);
         /* show error */
+		fprintf(stderr, "Error: %d real path was null.\n", errno);
     }
 }
