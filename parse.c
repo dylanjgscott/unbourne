@@ -23,15 +23,14 @@
 
 void parse(char *line)
 {
-	char line_copy[BUF_SIZE]; /* copy of line */
-	char *args[ARGS_SIZE]; /* list of arguments */
-	char **arg = args; /* pointer to current argument */
+	/* list of arguments */
+	char **args = malloc(sizeof(char *) * ARGS_SIZE);
 
-	/* copy line to line_copy */
-	strncpy(line_copy, line, BUF_SIZE);
+	/* pointer to current argument */
+	char **arg = args;
 
 	/* start tokenising the arguments */
-	*arg++ = strtok(line_copy, DELIMITERS);
+	*arg++ = strtok(line, DELIMITERS);
 
 	/* tokenise the remaining argumetns */
 	while((*arg++ = strtok(NULL, DELIMITERS)));
@@ -40,23 +39,26 @@ void parse(char *line)
 	if(*args)
 	{
 		/* the command is the first argument */
-		char* cmd = args[0];
+		char *cmd = args[0];
+
+		/* pointer to current built-in command */
+		struct builtin *builtin = builtins;
 
 		/* try to match the cmd with the internal commands */
-		int i = 0;
-		while(builtins[i].cmd != NULL)
+		while(builtin != NULL)
 		{
 			/* if cmd matches a built-in command */
-			if(strcmp(cmd, builtins[i].cmd) == 0)
+			if(strcmp(cmd, builtin->cmd) == 0)
 			{
 				/* run the built-in function */
-				builtins[i].func(args);
+				builtin->func(args);
 				break;
 			}
-			i++;
+			/* move to the next built in command */
+			builtin++;
 		}
 		/* if we could find an internal command */
-		if(builtins[i].cmd == NULL)
+		if(builtin->cmd == NULL)
 		{
 			/* pid of child process */
 			pid_t pid;
@@ -69,12 +71,13 @@ void parse(char *line)
 			{
 				/* fork error */
 				case -1:
-					fprintf(stderr, "Error: %d couldn't fork.\n", errno);
+					perror("fork");
 
 				/* child process */
 				case 0:
 					/* switch process */
 					execvp(args[0], args);
+
 				/* parent process */
 				default:
 					/* wait for child process */
@@ -82,4 +85,5 @@ void parse(char *line)
 			}
 		}
 	}
+	free(args);
 }

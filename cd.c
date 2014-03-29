@@ -31,18 +31,20 @@ void cd(char **args)
             if(setenv(PWD_VAR, real, true) != 0)
             {
                 /* show error */
-				fprintf(stderr, "Error: %d could not set working directory in environment.\n", errno);
+				perror("setenv");
+				/* abort */
+				abort();
             }
         }
         else
         {
 			/* show error */
-			fprintf(stderr, "Error: %d could not change directory to '%s'.\n", errno, args[1]);
+			perror("chdir");
         }
     }
     else
     {
-        /* show error */
-		fprintf(stderr, "Error: %d real path was null.\n", errno);
+		/* show error */
+		perror("realpath");
     }
 }
