@@ -19,12 +19,13 @@ struct builtin
 /* list of all builtin functions */
 struct builtin builtins[] =
 {
-	{ "cd", cd},
-	{ "clr", clear},
-	{ "dir", dir},
-	{ "environ", env},
-	{ "quit", quit},
-	{ "exit", quit},
+	{"cd", cd},
+	{"clr", clear},
+	{"dir", dir},
+	{"environ", env},
+	{"quit", quit},
+	{"exit", quit},
+	{NULL, NULL},
 };
 
 #endif

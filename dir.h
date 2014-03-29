@@ -1,5 +1,8 @@
 #ifndef dir_h
-#define cir_h 1
+#define dir_h 1
+
+#define DIR_CMD "ls"
+#define DIR_OPTS "-al"
 
 void dir(char **args);
 

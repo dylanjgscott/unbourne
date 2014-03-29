@@ -1,23 +1,45 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "unbourne.h"
 
 #include "dir.h"
+
+#include "parse.h"
 
 /* dir - list directory contents
  * args - directories to list
  */
 void dir(char **args)
 {
-	char dir_cmd[BUF_SIZE];
+	pid_t pid;
+	int status;
 	char **arg = args;
-	strncpy(dir_cmd, "ls -al", BUF_SIZE);
-	arg++;
-	while(*arg)
+	args[0] = DIR_CMD;
+	while(*arg != NULL)
 	{
-		strcat(dir_cmd, " ");
-		strcat(dir_cmd, *arg++);
+		arg++;
 	}
-	system(dir_cmd);
+	*arg = DIR_OPTS;
+	*arg++ = NULL;
+
+	switch(pid = fork())
+	{
+		/* fork error */
+		case -1:
+			/* show error */
+			perror("fork");
+
+		/* child process */
+		case 0:
+			/* switch process */
+			execvp(args[0], args);
+
+		/* parent process */
+		default:
+			/* wait for child process */
+			waitpid(pid, &status, 0);
+	}
 }

@@ -8,11 +8,6 @@
 
 #include "init.h"
 
-/* TODO
- *
- * use realpath
- */
-
 /* init - intitalise the shell
  * args - none
  * returns - none
@@ -23,10 +18,16 @@ void init(char **argv)
 	char *shell = realpath(argv[0], NULL);
 
     /* called from relative path */
-    if(shell != 0)
+    if(shell != NULL)
     {
-        /* set SHELL environment variable */
-        setenv(SHELL_VAR, shell, true);
+        /* set SHELL environment variable and check success */
+        if(setenv(SHELL_VAR, shell, true) != 0)
+		{
+			/* show error */
+			perror("setenv");
+			/* abort */
+			abort();
+		}
     }
 
     /* called from path */
@@ -35,8 +36,27 @@ void init(char **argv)
         /* string use to assemble possible shell locations */
         char *path = malloc(sizeof(char) * BUF_SIZE);
 
+		/* check that malloc has allocated memory */
+		if(!path)
+		{
+			/* show error */
+			perror("malloc");
+			/* abort */
+			abort();
+		}
+
         /* path variable */
         char *path_var = malloc(sizeof(char) * BUF_SIZE);
+
+		/* check that malloc has allocated memory */
+		if(!path_var)
+		{
+			/* show error */
+			perror("malloc");
+			/* abort */
+			abort();
+		}
+
 
         /* list of path directories */
         char *path_dirs[ARGS_SIZE];

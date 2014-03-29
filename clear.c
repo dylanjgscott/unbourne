@@ -7,6 +7,9 @@
  */
 void clear(char **args)
 {
-	(void)(args); /*unused parameter*/
+	/*unused parameter*/
+	(void)(args);
+
+	/* clear the screen */
 	system("clear");
 }

@@ -29,6 +29,17 @@ void parse(char *line)
 	/* pointer to current argument */
 	char **arg = args;
 
+	/* check that malloc has allocated memory */
+	if(!args)
+	{
+		/* show error */
+		perror("malloc");
+
+		/* abort */
+		abort();
+	}
+
+
 	/* start tokenising the arguments */
 	*arg++ = strtok(line, DELIMITERS);
 
@@ -45,7 +56,7 @@ void parse(char *line)
 		struct builtin *builtin = builtins;
 
 		/* try to match the cmd with the internal commands */
-		while(builtin != NULL)
+		while(builtin->cmd != NULL && builtin->func != NULL)
 		{
 			/* if cmd matches a built-in command */
 			if(strcmp(cmd, builtin->cmd) == 0)
@@ -57,8 +68,8 @@ void parse(char *line)
 			/* move to the next built in command */
 			builtin++;
 		}
-		/* if we could find an internal command */
-		if(builtin->cmd == NULL)
+		/* if we could not find an internal command */
+		if(builtin->cmd == NULL || builtin->func == NULL)
 		{
 			/* pid of child process */
 			pid_t pid;
@@ -71,14 +82,15 @@ void parse(char *line)
 			{
 				/* fork error */
 				case -1:
+					/* show error */
 					perror("fork");
 
-				/* child process */
+				/* this process is the child process */
 				case 0:
 					/* switch process */
 					execvp(args[0], args);
 
-				/* parent process */
+				/* this process is the parent process */
 				default:
 					/* wait for child process */
 					waitpid(pid, &status, 0);
