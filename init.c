@@ -35,14 +35,18 @@ void init(char **argv)
 
     /* called from relative path */
     if(shell != NULL)
-    {
-        /* set SHELL environment variable and check success */
-        if(setenv(SHELL_VAR, shell, true) != 0)
+	{
+    
+		if(fopen(shell, "r") != NULL && access(shell, X_OK) != -1)
 		{
-			/* show error */
-			perror("setenv");
-			/* abort */
-			abort();
+			/* set SHELL environment variable and check success */
+			if(setenv(SHELL_VAR, shell, true) != 0)
+			{
+				/* show error */
+				perror("setenv");
+				/* abort */
+				abort();
+			}
 		}
     }
 
@@ -59,7 +63,7 @@ void init(char **argv)
         char **path = paths;
 
 		/* check that malloc has allocated memory */
-		if(!shell)
+		if(!path_var)
 		{
 			/* show error */
 			perror("malloc");
@@ -68,7 +72,7 @@ void init(char **argv)
 		}
 
 		/* check that malloc has allocated memory */
-		if(!shell)
+		if(!paths)
 		{
 			/* show error */
 			perror("malloc");
