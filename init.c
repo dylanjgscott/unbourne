@@ -8,6 +8,10 @@
 
 #include "init.h"
 
+/* bugs
+ * if called from path SHELL variable can be set incorrectly
+ */
+
 /* init - intitalise the shell
  * args - none
  * returns - none
@@ -15,7 +19,19 @@
 void init(char **argv)
 {
 	/* shell path */
-	char *shell = realpath(argv[0], NULL);
+	char *shell = malloc(sizeof(char) * BUF_SIZE);
+
+	/* check that malloc has allocated memory */
+	if(!shell)
+	{
+		/* show error */
+		perror("malloc");
+		/* abort */
+		abort();
+	}
+
+	/* try realpath */
+	shell = realpath(argv[0], shell);
 
     /* called from relative path */
     if(shell != NULL)
@@ -33,23 +49,17 @@ void init(char **argv)
     /* called from path */
     else
     {
-        /* string use to assemble possible shell locations */
-        char *path = malloc(sizeof(char) * BUF_SIZE);
-
-		/* check that malloc has allocated memory */
-		if(!path)
-		{
-			/* show error */
-			perror("malloc");
-			/* abort */
-			abort();
-		}
-
-        /* path variable */
+        /* pointer to current path variable */
         char *path_var = malloc(sizeof(char) * BUF_SIZE);
 
+        /* list of path directories */
+        char **paths = malloc(sizeof(char *) * ARGS_SIZE);
+
+		/* pointer to current path */
+        char **path = paths;
+
 		/* check that malloc has allocated memory */
-		if(!path_var)
+		if(!shell)
 		{
 			/* show error */
 			perror("malloc");
@@ -57,57 +67,66 @@ void init(char **argv)
 			abort();
 		}
 
-
-        /* list of path directories */
-        char *path_dirs[ARGS_SIZE];
-
-        /* pointer to current path directory */
-        char **path_dir = path_dirs;
+		/* check that malloc has allocated memory */
+		if(!shell)
+		{
+			/* show error */
+			perror("malloc");
+			/* abort */
+			abort();
+		}
 
 		/* make copy of path variable */
         path_var = strcpy(path_var, getenv(PATH_VAR));
 
         /* begin tokenising the path variable */
-        *path_dir = strtok(path_var, PATH_SEPARATORS);
+        *path = strtok(path_var, PATH_SEPARATORS);
 
         /* finish tokenising the path variable */
-        while((*path_dir++ = strtok(NULL, PATH_SEPARATORS)));
+        while((*path++ = strtok(NULL, PATH_SEPARATORS)));
 
         /* go back to the first path in the list */
-        path_dir = path_dirs;
+        path = paths;
 
         /* move though each dir in the path list */
-        while(*path_dir)
+        while(*path)
         {
 
-            /* if the directory is the cwd */
-            if(strcmp(*path_dir, ".") == 0)
-            {
-                /* use working dir instead */
-                strcpy(path, getenv(CWD_VAR));
-            }
-            /* current directory is not cwd */
-            else
-            {
-                /* use full path */
-                strcpy(path, *path_dir);
-            }
+			/* use working dir instead */
+			strcpy(shell, *path);
+
             /* append directory separator */
-            strcat(path, DIR_SEPARATOR);
+            strcat(shell, DIR_SEPARATOR);
 
             /* append process name */
-            strcat(path, argv[0]);
+            strcat(shell, argv[0]);
 
-            /* if our possible shell is execuable */
-            if(access(path, X_OK) != -1)
-            {
-                /* set the shell environment var to our shell */
-                setenv(SHELL_VAR, path, true);
-                break;
-            }
-            path_dir++;
+			/* get real path */
+			shell = realpath(shell, shell);
+
+			/* check if real path exists */
+			if(shell != NULL)
+			{
+
+				/* if our possible shell is execuable */
+				if(access(shell, X_OK) != -1)
+				{
+					/* set the shell environment var to our shell */
+					if(setenv(SHELL_VAR, shell, true) != 0)
+					{
+						/* show error */
+						perror("setenv");
+						/* abort */
+						abort();
+					}
+					break;
+				}
+			}
+			/* move to next path */
+			paths++;
         }
-        free(path);
+		/* free unused memory */
         free(path_var);
+        free(paths);
     }
 }
