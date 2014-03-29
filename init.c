@@ -19,45 +19,35 @@
 void init(char **argv)
 {
 	/* shell path */
-	char *shell = malloc(sizeof(char) * BUF_SIZE);
-
-	/* check that malloc has allocated memory */
-	if(!shell)
-	{
-		/* show error */
-		perror("malloc");
-		/* abort */
-		abort();
-	}
+	char *shell = NULL;
 
 	/* try realpath */
 	shell = realpath(argv[0], shell);
 
-    /* called from relative path */
+    /* if we found the shell */
     if(shell != NULL)
 	{
-    
-		if(fopen(shell, "r") != NULL && access(shell, X_OK) != -1)
-		{
-			/* set SHELL environment variable and check success */
-			if(setenv(SHELL_VAR, shell, true) != 0)
-			{
-				/* show error */
-				perror("setenv");
-				/* abort */
-				abort();
-			}
-		}
+        /* set SHELL environment variable and check error */
+        if(setenv(SHELL_VAR, shell, true) != 0)
+        {
+            /* show error */
+            perror("setenv");
+            /* abort */
+            abort();
+        }
     }
 
-    /* called from path */
+    /* if that didn't work shell was called from path */
     else
     {
-        /* pointer to current path variable */
+        /* copy of path variable from environment */
         char *path_var = malloc(sizeof(char) * BUF_SIZE);
 
         /* list of path directories */
         char **paths = malloc(sizeof(char *) * ARGS_SIZE);
+
+        /* create a possible shell location */
+        char *possible_shell_path = malloc(sizeof(char) * BUF_SIZE);
 
 		/* pointer to current path */
         char **path = paths;
@@ -80,56 +70,60 @@ void init(char **argv)
 			abort();
 		}
 
+		/* check that malloc has allocated memory */
+		if(!possible_shell_path)
+		{
+			/* show error */
+			perror("malloc");
+			/* abort */
+			abort();
+		}
+
 		/* make copy of path variable */
         path_var = strcpy(path_var, getenv(PATH_VAR));
 
-        /* begin tokenising the path variable */
-        *path = strtok(path_var, PATH_SEPARATORS);
+        /* start tokenising the path */
+        *path = strtok(path_var, PATH_SEPARATOR);
 
-        /* finish tokenising the path variable */
-        while((*path++ = strtok(NULL, PATH_SEPARATORS)));
+        /* finish tokenising the path */
+        while((*path++ = strtok(NULL, PATH_SEPARATOR)));
 
-        /* go back to the first path in the list */
+        /* move back to the first path */
         path = paths;
 
-        /* move though each dir in the path list */
+        /* loop through all the paths */
         while(*path)
         {
+            /* add the path */
+            strcpy(possible_shell_path, *path);
 
-			/* use working dir instead */
-			strcpy(shell, *path);
+            /* add a directory separator */
+            strcat(possible_shell_path, DIR_SEPARATOR);
 
-            /* append directory separator */
-            strcat(shell, DIR_SEPARATOR);
+            /* add the name of the executable */
+            strcat(possible_shell_path, argv[0]);
 
-            /* append process name */
-            strcat(shell, argv[0]);
+            /* see if it exists */
+            shell = realpath(possible_shell_path, shell);
 
-			/* get real path */
-			shell = realpath(shell, shell);
-
-			/* check if real path exists */
-			if(shell != NULL)
-			{
-
-				/* if our possible shell is execuable */
-				if(access(shell, X_OK) != -1)
-				{
-					/* set the shell environment var to our shell */
-					if(setenv(SHELL_VAR, shell, true) != 0)
-					{
-						/* show error */
-						perror("setenv");
-						/* abort */
-						abort();
-					}
-					break;
-				}
-			}
-			/* move to next path */
-			paths++;
+            /* if we fould our shell path */
+            if(shell != NULL)
+            {
+                /* set SHELL environment variable and check error */
+                if(setenv(SHELL_VAR, shell, true) != 0)
+                {
+                    /* show error */
+                    perror("setenv");
+                    /* abort */
+                    abort();
+                }
+                break;
+            }
+            /* move to the next path */
+            path++;
         }
-		/* free unused memory */
+        /* free unused memory */
+        free(possible_shell_path);
         free(path_var);
         free(paths);
     }
