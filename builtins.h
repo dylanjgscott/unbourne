@@ -24,6 +24,7 @@ struct builtin builtins[] =
 	{ "dir", dir},
 	{ "environ", env},
 	{ "quit", quit},
+	{ "exit", quit},
 };
 
 #endif

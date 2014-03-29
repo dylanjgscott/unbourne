@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
 
 #include "unbourne.h"
 
@@ -55,8 +58,28 @@ void parse(char *line)
 		/* if we could find an internal command */
 		if(builtins[i].cmd == NULL)
 		{
-			/* run the line through the shell */
-			system(line);
+			/* pid of child process */
+			pid_t pid;
+
+			/* return status of child process */
+			int status;
+
+			/* create another process */
+			switch(pid = fork())
+			{
+				/* fork error */
+				case -1:
+					fprintf(stderr, "Error: %d couldn't fork.\n", errno);
+
+				/* child process */
+				case 0:
+					/* switch process */
+					execvp(args[0], args);
+				/* parent process */
+				default:
+					/* wait for child process */
+					waitpid(pid, &status, 0);
+			}
 		}
 	}
 }
