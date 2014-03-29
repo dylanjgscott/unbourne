@@ -85,5 +85,6 @@ void parse(char *line)
 			}
 		}
 	}
+	/* free arguments */
 	free(args);
 }
