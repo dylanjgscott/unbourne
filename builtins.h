@@ -6,6 +6,8 @@
 #include "dir.h"
 #include "env.h"
 #include "quit.h"
+#include "rest.h"
+#include "echo.h"
 
 /* struct builtin - associates a bulit-in command with a function */
 struct builtin
@@ -20,11 +22,13 @@ struct builtin
 struct builtin builtins[] =
 {
 	{"cd", cd},
+	{"echo", echo},
 	{"clr", clear},
 	{"dir", dir},
 	{"environ", env},
 	{"quit", quit},
 	{"exit", quit},
+	{"pause", rest},
 	{NULL, NULL},
 };
 
