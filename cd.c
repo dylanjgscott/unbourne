@@ -15,36 +15,41 @@
 void cd(char **args)
 {
 
-	/* the directory to change to */
-	char *path = args[1];
+	/* the real path of the directory */
+	char *path = NULL;
 
-	/* the canonical name for the directory to change to */
-	char *real = realpath(path, NULL);
-
-	/* try to get the real directory */
-	if(real != NULL)
+	/* cd requires an argument */
+	if(args[1] == NULL)
 	{
-		/* change directory and check if successful */
-		if(chdir(real) == 0)
-		{
-            /* try to set environment */
-            if(setenv(PWD_VAR, real, true) != 0)
-            {
-                /* show error */
-				perror("setenv");
-				/* abort */
-				abort();
-            }
-        }
-        else
-        {
-			/* show error */
-			perror("chdir");
-        }
-    }
-    else
-    {
+		return;
+	}
+
+	/* get the real path */
+	path = realpath(args[1], path);
+
+	/* if real path failed */
+	if(path == NULL)
+	{
 		/* show error */
 		perror("realpath");
-    }
+		return;
+	}
+
+	/* change directory and check for error */
+	if(chdir(path) != 0)
+	{
+		/* show error */
+		perror("chdir");
+		return;
+	}
+	
+	/* try to set environment and check for error */
+	if(setenv(PWD_VAR, path, true) != 0)
+	{
+		/* show error */
+		perror("setenv");
+		abort();
+	}
+
+	free(path);
 }

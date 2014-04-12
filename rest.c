@@ -12,5 +12,5 @@ void rest(char **args)
 	(void)(args);
 
 	/* pause until enter is pressed */
-	getchar();
+	while(getchar() != '\n');
 }

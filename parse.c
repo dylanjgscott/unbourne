@@ -26,21 +26,10 @@
 void parse(char *line)
 {
 	/* list of arguments */
-	char **args = malloc(sizeof(char *) * ARGS_SIZE);
+	char *args[ARGS_SIZE];
 
 	/* pointer to current argument */
 	char **arg = args;
-
-	/* check that malloc has allocated memory */
-	if(!args)
-	{
-		/* show error */
-		perror("malloc");
-
-		/* abort */
-		abort();
-	}
-
 
 	/* start tokenising the arguments */
 	*arg++ = strtok(line, DELIMITERS);
@@ -49,7 +38,7 @@ void parse(char *line)
 	while((*arg++ = strtok(NULL, DELIMITERS)));
 
 	/* if there are some arguments */
-	if(*args)
+	if(*args != NULL)
 	{
 		/* the command is the first argument */
 		char *cmd = args[0];
@@ -103,6 +92,4 @@ void parse(char *line)
 			}
 		}
 	}
-	/* free arguments */
-	free(args);
 }

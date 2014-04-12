@@ -34,6 +34,7 @@ void init(char **argv)
     /* abort if shell not found */
     if(shell == NULL)
     {
+		perror("realpath");
         abort();
     }
 
@@ -45,7 +46,6 @@ void init(char **argv)
         abort();
     }
 
-    /* free memory */
-    free(shell);
+	free(shell);
 
 }
