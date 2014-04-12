@@ -1,6 +1,8 @@
 #ifndef builtins_h
 #define builtins_h 1
 
+#include <stdbool.h>
+
 #include "cd.h"
 #include "clear.h"
 #include "dir.h"
@@ -16,20 +18,21 @@ struct builtin
 	char *cmd;
 	/* the function to run */
 	void (*func) (char **args);
+	/* should the shell fork for this command */
+	bool fork;
 };
 
 /* list of all builtin functions */
 struct builtin builtins[] =
 {
-	{"cd", cd},
-	{"echo", echo},
-	{"clr", clear},
-	{"dir", dir},
-	{"environ", env},
-	{"quit", quit},
-	{"exit", quit},
-	{"pause", rest},
-	{NULL, NULL},
+	{"cd", cd, false},
+	{"echo", echo, true},
+	{"clr", clear, false},
+	{"dir", dir, true},
+	{"environ", env, true},
+	{"quit", quit, false},
+	{"pause", rest, false},
+	{NULL, NULL, false},
 };
 
 #endif

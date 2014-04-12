@@ -106,15 +106,13 @@ void parse(char *line)
 			/* if cmd matches a built-in command */
 			if(strcmp(cmd, builtin->cmd) == 0)
 			{
-				/* run the built-in function */
-				builtin->func(args);
 				break;
 			}
 			/* move to the next built in command */
 			builtin++;
 		}
 		/* if we could not find an internal command */
-		if(builtin->cmd == NULL || builtin->func == NULL)
+		if(builtin->func == NULL || builtin->fork == true)
 		{
 			/* pid of child process */
 			pid_t pid;
@@ -164,12 +162,21 @@ void parse(char *line)
 							abort();
 						}
 					}
-					/* switch process */
-					if(execvp(args[0], args) == -1)
-                    {
-                        perror("exec");
-                        abort();
-                    }
+					if(builtin->func == NULL)
+					{
+						/* switch process */
+						if(execvp(args[0], args) == -1)
+						{
+							perror("exec");
+							abort();
+						}
+					}
+					else
+					{
+						/* run the built-in function */
+						builtin->func(args);
+						exit(EXIT_SUCCESS);
+					}
 
 				/* this process is the parent process */
 				default:
@@ -179,6 +186,10 @@ void parse(char *line)
 						waitpid(pid, NULL, 0);
 					}
 			}
+		}
+		else
+		{ 
+			builtin->func(args);
 		}
 	}
 }
