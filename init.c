@@ -40,10 +40,18 @@ void init(char **argv)
                 /* abort */
                 abort();
             }
+
+            /* free memory */
+            free(shell);
         }
 
-        /* free memory */
-        free(shell);
+        /* couldn't find shell */
+        else
+        {
+            /* something went wrong */
+            abort();
+        }
+
     }
 
     /* no arguments */
