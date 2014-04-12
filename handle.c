@@ -1,9 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "unbourne.h"
 
 #include "handle.h"
-
 #include "parse.h"
 
 /* handle
@@ -30,7 +30,7 @@ void handle(FILE* file, bool prompt)
         /* display a prompt if appropriate */
         if(prompt)
         {
-            printf("%s", PROMPT);
+            printf("%s:%s$ ", SHELL_NAME, getenv(CWD_VAR));
         }
 
 		/* if there is a command to process */
