@@ -13,6 +13,7 @@
 #define CWD_VAR "PWD"
 #define IN_REDIRECT_CMD "<"
 #define OUT_REDIRECT_CMD ">"
+#define APPEND_REDIRECT_CMD ">>"
 #define BACKGROUND_CMD "&"
 
 

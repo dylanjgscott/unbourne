@@ -28,6 +28,16 @@ void parse(char *line)
 {
 	/* wait for child process */
 	bool wait = true;
+
+	/* input file for child program */
+	char *in_file = NULL;
+
+	/* output file for child program */
+	char *out_file = NULL;
+
+	/* append mode false by default */
+	bool append = false;
+
 	/* list of arguments */
 	char *args[ARGS_SIZE];
 
@@ -46,17 +56,37 @@ void parse(char *line)
 	{
 		if(strcmp(*arg, IN_REDIRECT_CMD) == 0)
 		{
-			*arg = NULL;
+			/* set this argument to null and move to the next */
+			*arg++ = NULL;
+
+			/* set input file */
+			in_file = *arg;
 		}
 		else if(strcmp(*arg, OUT_REDIRECT_CMD) == 0)
 		{
-			*arg = NULL;
+			/* set this argument to null and move to the next */
+			*arg++ = NULL;
+
+			/* set output file */
+			out_file = *arg;
+		}
+		else if(strcmp(*arg, APPEND_REDIRECT_CMD) == 0)
+		{
+			/* set this argument to null and move to the next */
+			*arg++ = NULL;
+
+			/* set output file */
+			out_file = *arg;
+
+			/* set append mode */
+			append = true;
 		}
 		else if(strcmp(*arg, BACKGROUND_CMD) == 0)
 		{
+			/* set this argument to null and move to the next */
+			*arg++ = NULL;
 			/* do not wait for child process */
 			wait = false;
-			*arg = NULL;
 		}
 		arg++;
 	}
@@ -99,6 +129,41 @@ void parse(char *line)
 
 				/* this process is the child process */
 				case 0:
+					/* check for stdin redirect */
+					if(in_file != NULL)
+					{
+						/* reopen stdin */
+						stdin = freopen(in_file, "r", stdin);
+						/* check for error */
+						if(stdin == NULL)
+						{
+							perror("freopen");
+							abort();
+						}
+					}
+
+					/* check for stdout redirect */
+					if(out_file != NULL)
+					{
+						/* if append mode */
+						if(append)
+						{
+							/* reopen stdout */
+							stdout = freopen(out_file, "a", stdout);
+						}
+						/* if not append mode */
+						else
+						{
+							/* reopen stdout */
+							stdout = freopen(out_file, "w", stdout);
+						}
+						/* check for error */
+						if(stdout == NULL)
+						{
+							perror("freopen");
+							abort();
+						}
+					}
 					/* switch process */
 					if(execvp(args[0], args) == -1)
                     {
