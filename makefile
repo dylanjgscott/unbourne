@@ -1,3 +1,7 @@
+#
+# @author Dylan Scott dsco9564
+#
+
 CC=gcc
 CFLAGS=-g -std=gnu90 -pedantic -Wall -Wextra
 

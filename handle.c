@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

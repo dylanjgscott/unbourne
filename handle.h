@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #ifndef handle_h
 #define handle_h 1
 

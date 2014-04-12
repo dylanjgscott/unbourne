@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #ifndef pause_h
 #define pause_h 1
 

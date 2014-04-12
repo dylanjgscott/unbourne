@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>

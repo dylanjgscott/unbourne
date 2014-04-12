@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #ifndef builtins_h
 #define builtins_h 1
 
@@ -18,7 +22,7 @@ struct builtin
 	char *cmd;
 	/* the function to run */
 	void (*func) (char **args);
-	/* should the shell fork for this command */
+	/* shows if the shell fork for this command */
 	bool fork;
 };
 

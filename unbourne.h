@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #ifndef shell_h
 #define shell_h 1
 
