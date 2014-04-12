@@ -2,8 +2,8 @@
  * @author Dylan Scott dsco9564
  */
 
-#ifndef shell_h
-#define shell_h 1
+#ifndef unbourne_h
+#define unbourne_h 1
 
 #define BUF_SIZE 1024
 #define ARGS_SIZE 1024

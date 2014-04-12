@@ -14,6 +14,7 @@
 #include "quit.h"
 #include "rest.h"
 #include "echo.h"
+#include "help.h"
 
 /* struct builtin - associates a bulit-in command with a function */
 struct builtin
@@ -36,6 +37,7 @@ struct builtin builtins[] =
 	{"environ", env, true},
 	{"quit", quit, false},
 	{"pause", rest, false},
+	{"help", help, true},
 	{NULL, NULL, false},
 };
 

@@ -7,7 +7,7 @@ CFLAGS=-g -std=gnu90 -pedantic -Wall -Wextra
 
 all: unbourne
 
-unbourne: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o rest.o echo.o
+unbourne: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o rest.o echo.o help.o
 	$(CC) -o $@ $^
 
 unbourne.o: unbourne.c unbourne.h
@@ -35,6 +35,9 @@ cd.o: cd.c cd.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 rest.o: rest.c rest.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+help.o: help.c help.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 echo.o: echo.c echo.h
