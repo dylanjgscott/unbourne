@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 #include "unbourne.h"
 
