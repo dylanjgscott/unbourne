@@ -17,6 +17,44 @@
 
 #include "builtins.h"
 
+void redirect(char *in_file, char *out_file, bool append)
+{
+	if(in_file != NULL)
+	{
+		/* reopen stdin */
+		stdin = freopen(in_file, "r", stdin);
+		/* check for error */
+		if(stdin == NULL)
+		{
+			perror("freopen");
+			abort();
+		}
+	}
+
+	/* check for stdout redirect */
+	if(out_file != NULL)
+	{
+		/* if append mode */
+		if(append)
+		{
+			/* reopen stdout */
+			stdout = freopen(out_file, "a", stdout);
+		}
+		/* if not append mode */
+		else
+		{
+			/* reopen stdout */
+			stdout = freopen(out_file, "w", stdout);
+		}
+		/* check for error */
+		if(stdout == NULL)
+		{
+			perror("freopen");
+			abort();
+		}
+	}
+}
+
 /* parse
  *
  * interpret a command line and take the appropriate action.
@@ -56,8 +94,10 @@ void parse(char *line)
 
 	arg = args;
 
+	/* check arguments for redirection and background commands */
 	while(*arg)
 	{
+		/* if input redirect requested */
 		if(strcmp(*arg, IN_REDIRECT_CMD) == 0)
 		{
 			/* set this argument to null and move to the next */
@@ -66,6 +106,7 @@ void parse(char *line)
 			/* set input file */
 			in_file = *arg;
 		}
+		/* if output redirect requested */
 		else if(strcmp(*arg, OUT_REDIRECT_CMD) == 0)
 		{
 			/* set this argument to null and move to the next */
@@ -74,6 +115,7 @@ void parse(char *line)
 			/* set output file */
 			out_file = *arg;
 		}
+		/* if output redirect requested */
 		else if(strcmp(*arg, APPEND_REDIRECT_CMD) == 0)
 		{
 			/* set this argument to null and move to the next */
@@ -85,6 +127,7 @@ void parse(char *line)
 			/* set append mode */
 			append = true;
 		}
+		/* if background requested */
 		else if(strcmp(*arg, BACKGROUND_CMD) == 0)
 		{
 			/* set this argument to null and move to the next */
@@ -115,7 +158,7 @@ void parse(char *line)
 			/* move to the next built in command */
 			builtin++;
 		}
-		/* if we could not find an internal command */
+		/* if we could not find an internal command or the command is a fork command */
 		if(builtin->func == NULL || builtin->fork == true)
 		{
 			/* pid of child process */
@@ -131,41 +174,10 @@ void parse(char *line)
 
 				/* this process is the child process */
 				case 0:
-					/* check for stdin redirect */
-					if(in_file != NULL)
-					{
-						/* reopen stdin */
-						stdin = freopen(in_file, "r", stdin);
-						/* check for error */
-						if(stdin == NULL)
-						{
-							perror("freopen");
-							abort();
-						}
-					}
+					/* do any redirects */
+					redirect(in_file, out_file, append);
 
-					/* check for stdout redirect */
-					if(out_file != NULL)
-					{
-						/* if append mode */
-						if(append)
-						{
-							/* reopen stdout */
-							stdout = freopen(out_file, "a", stdout);
-						}
-						/* if not append mode */
-						else
-						{
-							/* reopen stdout */
-							stdout = freopen(out_file, "w", stdout);
-						}
-						/* check for error */
-						if(stdout == NULL)
-						{
-							perror("freopen");
-							abort();
-						}
-					}
+					/* if this is not a built-in command */
 					if(builtin->func == NULL)
 					{
 						/* switch process */
@@ -175,6 +187,7 @@ void parse(char *line)
 							abort();
 						}
 					}
+					/* if this is a built-in command */
 					else
 					{
 						/* run the built-in function */
@@ -184,6 +197,7 @@ void parse(char *line)
 
 				/* this process is the parent process */
 				default:
+					/* if wait is requested */
 					if(wait)
 					{
 						/* wait for child process */
@@ -193,6 +207,7 @@ void parse(char *line)
 		}
 		else
 		{ 
+			/* run the built-in command */
 			builtin->func(args);
 		}
 	}
