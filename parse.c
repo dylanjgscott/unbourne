@@ -88,7 +88,11 @@ void parse(char *line)
 				/* this process is the child process */
 				case 0:
 					/* switch process */
-					execvp(args[0], args);
+					if(execvp(args[0], args) == -1)
+                    {
+                        perror("exec");
+                        abort();
+                    }
 
 				/* this process is the parent process */
 				default:
