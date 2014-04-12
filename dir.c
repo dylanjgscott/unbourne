@@ -16,16 +16,31 @@
  */
 void dir(char **args)
 {
+	/* child proccess id */
 	pid_t pid;
-	int status;
+
+	/* arguments for command */
+	char *command_args[ARGS_SIZE];
+
+	/* pointer to current argument */
 	char **arg = args;
-	args[0] = DIR_CMD;
+	char **command_arg = command_args;
+
+	/* set command as first argument */
+	*command_arg++ = DIR_CMD;
+
+	/* set options as second argument */
+	*command_arg++ = DIR_OPTS;
+
+	/* skip the first argument */
+	arg++;
+
+	/* put the directories */
 	while(*arg != NULL)
 	{
-		arg++;
+		*command_arg++ = *arg++;
 	}
-	*arg = DIR_OPTS;
-	*arg++ = NULL;
+	*command_arg++ = NULL;
 
 	switch(pid = fork())
 	{
@@ -37,11 +52,16 @@ void dir(char **args)
 		/* child process */
 		case 0:
 			/* switch process */
-			execvp(args[0], args);
+			if(execvp(command_args[0], command_args) == -1)
+			{
+				/* show error */
+				perror("exec");
+				abort();
+			}
 
 		/* parent process */
 		default:
 			/* wait for child process */
-			waitpid(pid, &status, 0);
+			waitpid(pid, NULL, 0);
 	}
 }
