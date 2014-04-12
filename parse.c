@@ -65,9 +65,6 @@ void parse(char *line)
 			/* pid of child process */
 			pid_t pid;
 
-			/* return status of child process */
-			int status;
-
 			/* create another process */
 			switch(pid = fork())
 			{
@@ -88,7 +85,7 @@ void parse(char *line)
 				/* this process is the parent process */
 				default:
 					/* wait for child process */
-					waitpid(pid, &status, 0);
+					waitpid(pid, NULL, 0);
 			}
 		}
 	}
