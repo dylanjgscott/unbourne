@@ -24,15 +24,14 @@ void handle(FILE* file, bool prompt)
 	/* buffer to read into */
 	char buf[BUF_SIZE];
 
-	/* display a prompt if appropriate */
-	if(prompt)
-	{
-		printf("%s", PROMPT);
-	}
-
 	/* read until the end of file */
 	while(!feof(file))
 	{
+        /* display a prompt if appropriate */
+        if(prompt)
+        {
+            printf("%s", PROMPT);
+        }
 
 		/* if there is a command to process */
 		if(fgets(buf, BUF_SIZE, file))
@@ -41,14 +40,11 @@ void handle(FILE* file, bool prompt)
 			/* process the command */
 			parse(buf);
 
-			/* display a prompt if appropriate */
-			if(prompt)
-			{
-				printf("%s", PROMPT);
-			}
-
 		}
 
 	}
+
+    /* print a new line at program termination */
+    printf("\n");
 
 }
