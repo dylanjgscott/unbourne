@@ -19,45 +19,33 @@
  */
 void init(char **argv)
 {
+    /* path to shell */
+    char *shell = NULL;
+
     /* make sure we have an argument */
-    if(argv[0] != NULL)
+    if(argv[0] == NULL)
     {
-        /* shell path */
-        char *shell = NULL;
-
-        /* try realpath */
-        shell = realpath(argv[0], shell);
-
-        /* if we found the shell */
-        if(shell != NULL)
-        {
-            /* set SHELL environment variable and check error */
-            if(setenv(SHELL_VAR, shell, true) != 0)
-            {
-                /* show error */
-                perror("setenv");
-
-                /* abort */
-                abort();
-            }
-
-            /* free memory */
-            free(shell);
-        }
-
-        /* couldn't find shell */
-        else
-        {
-            /* something went wrong */
-            abort();
-        }
-
-    }
-
-    /* no arguments */
-    else
-    {
-        /* something went wrong */
         abort();
     }
+
+    /* try to find real path to shell */
+    shell = realpath(argv[0], shell);
+
+    /* abort if shell not found */
+    if(shell == NULL)
+    {
+        abort();
+    }
+
+    /* set SHELL environment variable and check for errors */
+    if(setenv(SHELL_VAR, shell, true) != 0)
+    {
+        /* show error */
+        perror("setenv");
+        abort();
+    }
+
+    /* free memory */
+    free(shell);
+
 }
