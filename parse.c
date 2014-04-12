@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <stdbool.h>
 
 #include "unbourne.h"
 
@@ -25,6 +26,8 @@
 
 void parse(char *line)
 {
+	/* wait for child process */
+	bool wait = true;
 	/* list of arguments */
 	char *args[ARGS_SIZE];
 
@@ -36,6 +39,27 @@ void parse(char *line)
 
 	/* tokenise the remaining argumetns */
 	while((*arg++ = strtok(NULL, DELIMITERS)));
+
+	arg = args;
+
+	while(*arg)
+	{
+		if(strcmp(*arg, IN_REDIRECT_CMD) == 0)
+		{
+			*arg = NULL;
+		}
+		else if(strcmp(*arg, OUT_REDIRECT_CMD) == 0)
+		{
+			*arg = NULL;
+		}
+		else if(strcmp(*arg, BACKGROUND_CMD) == 0)
+		{
+			/* do not wait for child process */
+			wait = false;
+			*arg = NULL;
+		}
+		arg++;
+	}
 
 	/* if there are some arguments */
 	if(*args != NULL)
@@ -84,8 +108,11 @@ void parse(char *line)
 
 				/* this process is the parent process */
 				default:
-					/* wait for child process */
-					waitpid(pid, NULL, 0);
+					if(wait)
+					{
+						/* wait for child process */
+						waitpid(pid, NULL, 0);
+					}
 			}
 		}
 	}

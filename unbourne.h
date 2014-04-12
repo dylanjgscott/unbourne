@@ -11,6 +11,9 @@
 #define PATH_SEPARATOR ":"
 #define DIR_SEPARATOR "/"
 #define CWD_VAR "PWD"
+#define IN_REDIRECT_CMD "<"
+#define OUT_REDIRECT_CMD ">"
+#define BACKGROUND_CMD "&"
 
 
 int main(int argc, char** argv);
