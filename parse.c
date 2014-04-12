@@ -17,8 +17,12 @@
 
 #include "builtins.h"
 
+/**
+ * \todo put this in another file
+ */
 void redirect(char *in_file, char *out_file, bool append)
 {
+	/* check for stdin redirect */
 	if(in_file != NULL)
 	{
 		/* reopen stdin */
@@ -181,6 +185,9 @@ void parse(char *line)
 					if(builtin->func == NULL)
 					{
 						/* switch process */
+						/**
+						 * \todo set PARENT in environ
+						 */
 						if(execvp(args[0], args) == -1)
 						{
 							perror("exec");

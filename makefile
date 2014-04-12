@@ -5,9 +5,9 @@
 CC=gcc
 CFLAGS=-g -std=gnu90 -pedantic -Wall -Wextra
 
-all: unbourne
+all: myshell
 
-unbourne: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o rest.o echo.o help.o
+myshell: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o rest.o echo.o help.o
 	$(CC) -o $@ $^
 
 unbourne.o: unbourne.c unbourne.h
@@ -47,4 +47,4 @@ init.o: init.c init.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm unbourne *.o
+	rm myshell *.o
