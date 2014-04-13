@@ -2,6 +2,8 @@
  * @author Dylan Scott dsco9564
  */
 
+#include <stdio.h>
+
 #include "help.h"
 
 /* help - show help
@@ -12,8 +14,8 @@ void help(char **args)
 	/* unused parameter */
 	(void)args;
 
-	/**
-	 * \todo put shit here
-	 */
-
+    /**
+     * \todo make this use less
+     */
+    printf("%s", HELP_TEXT);
 }

@@ -1,3 +1,82 @@
-Author Dylan Scott dsco9564
+Unbourne Shell
+==============
 
-todo finish this off
+Written by Dylan Scott dsco9564@uni.sydney.edu.au.
+
+A basic shell which supports I/O redirection and background execution. The shell is invoked by running `myshell`. The shell will then prompt for commands one at a time, interactivly. It is also possible to read commands from a file by giving the file as an argument. For example the command `myshell file` will start the shell in non-interactive mode and read commands from the file named `file`.
+
+Operation and Commands
+----------------------
+
+### Built-in Commands
+
+* `cd`
+
+The `cd` command is used to change the current working directory.
+For example the command `cd DIRECTORY` will change the working directory to `DIRECTORY`.`
+
+* `clr`
+
+The `clr` command is used to clear the screen. It takes no arguments.
+For example the `clr` command will clear the screen.
+
+* `dir`
+
+The `dir` command is used to print the contents of a directory. If no arguments are given `dir` will print the contents of the current directory.
+For example the command `dir DIRECTORY` will list the contents of the directory `DIRECTORY`.
+
+* `environ`
+The `environ` command will print out the current environment variables. It takes no arguments.
+
+* `echo`
+The command `echo` prints out any arguments given.
+For example the command `echo example` will print out `example`.
+
+* `help`
+The `help` command shows this help page. It takes no arguments.
+For example issuing the command `help` will show this page.
+
+* `pause`
+The `pause` command will stop all shell activity until the `enter` key is pressed on the keyboard. It is useful for non-interative shells. It takes no arguments.
+For example `pause` will halt all activity.
+
+* `quit`
+The command `quit` will terminate the shell. It takes no arguments.
+For example `quit` will exit the shell.
+
+Input/Output Redirection
+------------------------
+
+It is possible to make programs input or output from files rather than read from keyboard or output to screen. This is accomplished using the input and output redirection commands.
+
+* `>`
+The command `>` is used for output redirection and takes one argument, the name of the file to ouput to. Any existing data in the file is deleted first.
+For example the command `echo test > file` will write `test` in the file named `file`.
+
+* `>>`
+The command `> is also used for output redirection and takes one argument, the name of the file to output to but the data is added to the end of the file, preserving the existing contents.
+Continuing from the previous example the command `echo test2 >> file` will append `test2` to the file named `file`. The original contents are preserved.
+
+* `<` 
+The `<` command allows input redirection. It takes one argument, the name of a file and will read the input for a command from that file instead of reading from the keyboard.
+For example the command `grep test < file` will make the program grep read from the file named `file` instead of from the keyboard.
+
+Program Environment
+-------------------
+
+The shell has a set of environment variables. The ones set by the shell itself are below.
+
+* `SHELL`
+This environment variable is set to the path of the shell itself.
+
+* `PWD`
+The environment variable `PWD` is set to the current working directory.
+
+* `PARENT`
+The `PARENT` environment variable is set in all child processes to the path of the shell itself.
+
+Background Program Execution
+----------------------------
+
+The shell allows processes to run in the background. This is done by using the `&` symbol at the end of the command.
+For example the command `sleep 60 &` will execute the `sleep 60` command and then immediatly continue processing new commands.
