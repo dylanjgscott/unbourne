@@ -7,7 +7,7 @@ CFLAGS=-g -std=gnu90 -pedantic -Wall -Wextra
 
 all: myshell
 
-myshell: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o rest.o echo.o help.o
+myshell: unbourne.o handle.o parse.o clear.o dir.o env.o quit.o init.o cd.o rest.o echo.o help.o redirect.o
 	$(CC) -o $@ $^
 
 unbourne.o: unbourne.c unbourne.h
@@ -44,6 +44,9 @@ echo.o: echo.c echo.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 init.o: init.c init.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+redirect.o: redirect.c redirect.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
