@@ -61,7 +61,7 @@ For example the command `echo test > file` will write `test` in the file named `
 
 * `>>`
 
-The command `> is also used for output redirection and takes one argument, the name of the file to output to but the data is added to the end of the file, preserving the existing contents.
+The command `>>` is also used for output redirection and takes one argument, the name of the file to output to but the data is added to the end of the file, preserving the existing contents.
 Continuing from the previous example the command `echo test2 >> file` will append `test2` to the file named `file`. The original contents are preserved.
 
 * `<` 
