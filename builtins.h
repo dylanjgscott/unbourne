@@ -38,7 +38,7 @@ struct builtin builtins[] =
 	{"quit", quit, false},
 	{"pause", rest, false},
 	{"help", help, true},
-	{NULL, NULL, false},
+	{NULL, NULL, false}, /* put null at the end */
 };
 
 #endif

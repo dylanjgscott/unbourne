@@ -15,8 +15,15 @@
 
 #include "parse.h"
 
-/* dir - list directory contents
- * args - directories to list
+/* dir
+ *
+ * list directory contents
+ *
+ * arguments:
+ *  args - list of directories to display
+ *
+ * returns:
+ *  nothing
  */
 void dir(char **args)
 {

@@ -7,8 +7,15 @@
 
 #include "echo.h"
 
-/* echo - print out arguments on stdout
- * args - the strings to be echoed
+/* echo
+ *
+ * print out arguments on stdout
+ *
+ * arguments:
+ *  args - list of strings to be echoed
+ *
+ * returns:
+ *  nothing
  */
 void echo(char **args)
 {

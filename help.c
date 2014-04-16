@@ -15,8 +15,15 @@
 
 #include "parse.h"
 
-/* help - show readme
- * args - unused
+/* help
+ *
+ * show readme
+ *
+ * arguments:
+ *  args - unused
+ *
+ * returns:
+ *  nothing
  */
 void help(char **args)
 {
@@ -24,7 +31,8 @@ void help(char **args)
 	char *command_args[ARGS_SIZE];
 	char **command_arg = command_args;
 
-	(void) args;
+	/* unused parameter */
+	(void)(args);
 
 	/* set command as first argument */
 	*command_arg++ = "more";

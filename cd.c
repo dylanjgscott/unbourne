@@ -12,9 +12,15 @@
 
 #include "cd.h"
 
-/* cd - change directory
- * args - the directory to change to
- * returns - nothing
+/* cd
+ *
+ * change directory
+ *
+ * arguments:
+ *  args - the directory to change to
+ *
+ * returns:
+ *  nothing
  */
 void cd(char **args)
 {
@@ -55,5 +61,6 @@ void cd(char **args)
 		abort();
 	}
 
+	/* free unused memory */
 	free(path);
 }

@@ -14,21 +14,9 @@
 #include "handle.h"
 #include "handle_signal.h"
 
-/*
- * Unbourne Shell
- * Author: Dylan Scott
- * Copyright 2014
+/* main
  *
- * Usage: unbourne [FILE...]
- *
- * Very basic shell. Most commands passed to sh anyway.
- *
- * Intenal commands:
- *	clr - clear the screen
- *	dir [DIRECTORY...] - show directory contents
- *	quit - exit the shell
- *	environ - show environment variables
- *
+ * program entry point
  */
 int main(int argc, char** argv)
 {

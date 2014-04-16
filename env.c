@@ -10,8 +10,15 @@
 /* envionment variables */
 extern char **environ;
 
-/* env - print environment variables
- * args - not used
+/* env
+ *
+ * print environment variables
+ *
+ * arguments:
+ *  args - not used
+ *
+ * returns:
+ *  nothing
  */
 void env(char **args)
 {

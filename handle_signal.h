@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Scott dsco9564
+ */
+
 #ifndef handle_signal_h
 #define handle_signal_h 1
 

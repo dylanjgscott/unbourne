@@ -6,8 +6,15 @@
 
 #include "clear.h"
 
-/* clear - clears the screen by calling system clear
- * args - none
+/* clear
+ *
+ * clears the screen by calling system clear
+ *
+ * arguments:
+ *  args - unused
+ *
+ * returns:
+ *  nothing
  */
 void clear(char **args)
 {
@@ -15,5 +22,5 @@ void clear(char **args)
 	(void)(args);
 
 	/* clear the screen */
-	system("clear");
+	system(CLEAR_CMD);
 }

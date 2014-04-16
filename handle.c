@@ -21,7 +21,6 @@
  * returns:
  *	nothing
  */
-
 void handle(FILE* file, bool prompt)
 {
 

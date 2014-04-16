@@ -7,8 +7,15 @@
 
 #include "rest.h"
 
-/* rest - pause until enter is pressed by the user
- * args - none
+/* rest
+ *
+ * pause until enter is pressed by the user
+ *
+ * arguments:
+ *  args - unused
+ *
+ * returns:
+ *  nothing
  */
 void rest(char **args)
 {

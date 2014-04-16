@@ -12,10 +12,22 @@
 
 #include "init.h"
 
-void set_readme_path(void)
+/* set_readme_path
+ *
+ * sets the path to the readme file by using the path to the shell.
+ *
+ * arguments:
+ *  shell_path - the path to the shell
+ *
+ * returns:
+ *  nothing
+ */
+void set_readme_path(char *shell_path)
 {
 	char *character = readme_path;
 	char *delimiter = NULL;
+
+	strcpy(readme_path, shell_path);
 
 	/* find the last dir separator */
 	while(*character != '\0')
@@ -32,13 +44,15 @@ void set_readme_path(void)
 }
 
 
-/* bugs
- * if called from path SHELL variable can be set incorrectly
- */
-
-/* init - intitalise the shell
- * args - none
- * returns - none
+/* init
+ *
+ * intitalise the shell
+ *
+ * arguments:
+ *  args - the arguments passed in to the main function
+ *
+ * returns:
+ *  nothing
  */
 void init(char **argv)
 {
@@ -69,8 +83,7 @@ void init(char **argv)
         abort();
     }
 
-	strcpy(readme_path, shell);
+	set_readme_path(shell);
 	free(shell);
-	set_readme_path();
 
 }

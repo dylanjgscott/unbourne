@@ -6,11 +6,20 @@
 
 #include "quit.h"
 
-/* quit - exit the shell
- * args - none
+/* quit
+ * exit the shell
+ *
+ * arguments:
+ *  args - unused
+ *
+ * returns:
+ *  nothing
  */
 void quit(char **args)
 {
-	(void)(args); /*unused parameter*/
+	/*unused parameter*/
+	(void)(args);
+
+	/* quit */
 	exit(EXIT_SUCCESS);
 }

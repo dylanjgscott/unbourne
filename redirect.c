@@ -7,6 +7,18 @@
 
 #include "redirect.h"
 
+/* redirect
+ *
+ * reopens stdin and/or stdout
+ *
+ * arguments:
+ *  in_file - the file to read stdin from
+ *  out_file - the file to write stdout to
+ *  append - if true, stdout will be set to append mode
+ *
+ * returns:
+ *  nothing
+ */
 void redirect(char *in_file, char *out_file, bool append)
 {
 	/* check for stdin redirect */
