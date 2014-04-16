@@ -20,9 +20,6 @@
  */
 void dir(char **args)
 {
-	/* child proccess id */
-	pid_t pid;
-
 	/* arguments for command */
 	char *command_args[ARGS_SIZE];
 
@@ -46,26 +43,12 @@ void dir(char **args)
 	}
 	*command_arg++ = NULL;
 
-	switch(pid = fork())
+	/* switch processes and check for errors */
+	if(execvp(command_args[0], command_args) == -1)
 	{
-		/* fork error */
-		case -1:
-			/* show error */
-			perror("fork");
-
-		/* child process */
-		case 0:
-			/* switch process */
-			if(execvp(command_args[0], command_args) == -1)
-			{
-				/* show error */
-				perror("exec");
-				abort();
-			}
-
-		/* parent process */
-		default:
-			/* wait for child process */
-			waitpid(pid, NULL, 0);
+		/* show error */
+		perror("exec");
+		abort();
 	}
+
 }
