@@ -24,7 +24,7 @@
 /* this pid is used for SIGTERM handling and PIDWAIT */
 pid_t child_pid;
 
-
+char readme_path[BUF_SIZE];
 
 int main(int argc, char** argv);
 

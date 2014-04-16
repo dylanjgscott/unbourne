@@ -30,7 +30,7 @@ void help(char **args)
 	*command_arg++ = "more";
 
 	/* set options as second argument */
-	*command_arg++ = "/Users/dylan/unbourne/readme";
+	*command_arg++ = readme_path;
 
 	/* switch processes and check for errors */
 	if(execvp(command_args[0], command_args) == -1)

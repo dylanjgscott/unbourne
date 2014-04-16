@@ -12,6 +12,25 @@
 
 #include "init.h"
 
+void set_readme_path(void)
+{
+	char *character = readme_path;
+	char *delimiter = NULL;
+
+	/* find the last dir separator */
+	while(*character != '\0')
+	{
+		if(*character == *DIR_SEPARATOR)
+		{
+			delimiter = character;
+		}
+		character++;
+	}
+	/* set the last dir separator to string end */
+	*delimiter = '\0';
+	strcat(readme_path, "/readme");
+}
+
 
 /* bugs
  * if called from path SHELL variable can be set incorrectly
@@ -50,6 +69,8 @@ void init(char **argv)
         abort();
     }
 
+	strcpy(readme_path, shell);
 	free(shell);
+	set_readme_path();
 
 }
