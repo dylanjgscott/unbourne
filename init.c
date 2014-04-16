@@ -40,7 +40,8 @@ void set_readme_path(char *shell_path)
 	}
 	/* set the last dir separator to string end */
 	*delimiter = '\0';
-	strcat(readme_path, "/readme");
+	strcat(readme_path, DIR_SEPARATOR);
+	strcat(readme_path, README_FILENAME);
 }
 
 

@@ -54,7 +54,7 @@ void cd(char **args)
 	}
 	
 	/* try to set environment and check for error */
-	if(setenv(PWD_VAR, path, true) != 0)
+	if(setenv(CWD_VAR, path, true) != 0)
 	{
 		/* show error */
 		perror("setenv");

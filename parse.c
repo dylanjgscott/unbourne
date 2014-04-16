@@ -138,7 +138,7 @@ void parse(char *line)
 					redirect(in_file, out_file, append);
 
 					/* set parent variable */
-					setenv("PARENT", getenv(SHELL_VAR), 1);
+					setenv(PARENT_VAR, getenv(SHELL_VAR), 1);
 
 					/* if this is not a built-in command */
 					if(builtin->func == NULL)

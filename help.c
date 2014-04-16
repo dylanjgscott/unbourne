@@ -35,7 +35,7 @@ void help(char **args)
 	(void)(args);
 
 	/* set command as first argument */
-	*command_arg++ = "more";
+	*command_arg++ = MORE_CMD;
 
 	/* set options as second argument */
 	*command_arg++ = readme_path;

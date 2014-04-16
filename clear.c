@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 
+#include "unbourne.h"
+
 #include "clear.h"
 
 /* clear
