@@ -124,11 +124,8 @@ void parse(char *line)
 		/* if we could not find an internal command or the command is a fork command */
 		if(builtin->func == NULL || builtin->fork == true)
 		{
-			/* pid of child process */
-			pid_t pid;
-
 			/* create another process */
-			switch(pid = fork())
+			switch(child_pid = fork())
 			{
 				/* fork error */
 				case -1:
@@ -167,8 +164,9 @@ void parse(char *line)
 					if(wait)
 					{
 						/* wait for child process */
-						waitpid(pid, NULL, 0);
+						waitpid(child_pid, NULL, 0);
 					}
+					child_pid = 0;
 			}
 		}
 		else

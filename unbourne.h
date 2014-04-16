@@ -20,6 +20,11 @@
 #define APPEND_REDIRECT_CMD ">>"
 #define BACKGROUND_CMD "&"
 
+/* if child_pid is zero, don't wait for child proccesses */
+/* this pid is used for SIGTERM handling and PIDWAIT */
+pid_t child_pid;
+
+
 
 int main(int argc, char** argv);
 

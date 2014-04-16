@@ -6,11 +6,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <signal.h>
 
 #include "unbourne.h"
 
 #include "init.h"
 #include "handle.h"
+#include "handle_signal.h"
 
 /*
  * Unbourne Shell
@@ -32,6 +34,8 @@ int main(int argc, char** argv)
 {
     /* initalise our shell */
     init(argv);
+
+	signal(SIGINT, handle_signal);
 
 	/* If no argument given, read stdin and display prompt */
 	if(argc == 1)

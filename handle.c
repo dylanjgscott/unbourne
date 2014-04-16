@@ -48,7 +48,10 @@ void handle(FILE* file, bool prompt)
 
 	}
 
-    /* print a new line at program termination */
-    printf("\n");
+	if(prompt)
+	{
+		/* print a new line at program termination */
+		printf("\n");
+	}
 
 }

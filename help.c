@@ -17,5 +17,4 @@ void help(char **args)
     /**
      * \todo make this use less
      */
-    printf("%s", HELP_TEXT);
 }
