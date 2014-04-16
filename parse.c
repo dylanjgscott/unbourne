@@ -144,9 +144,6 @@ void parse(char *line)
 					if(builtin->func == NULL)
 					{
 						/* switch process */
-						/**
-						 * \todo set PARENT in environ
-						 */
 						if(execvp(args[0], args) == -1)
 						{
 							perror("exec");
